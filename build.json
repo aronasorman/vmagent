@@ -1,4 +1,8 @@
 {
+    "variables": {
+        "agent_token": ""
+    },
+
     "builders":[{
         "boot_command": [
             "<esc><wait>",
@@ -39,8 +43,11 @@
 
     "provisioners":[{
         "type": "shell",
-        "inline": [
-            "sleep 30"
+        "execute_command": "echo 'learningequality' | sudo -S -E bash {{.Path}} {{user `agent_token`}}",
+        "scripts": [
+            "scripts/bootstrap.sh",
+            "scripts/docker.sh",
+            "scripts/buildkite_agent.sh"   
         ]
     }]
 }
