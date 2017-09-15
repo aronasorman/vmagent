@@ -63,7 +63,7 @@
     "provisioners":[
         {
             "type": "file",
-            "source": "./buildkite-artifact-uploader.json",
+            "source": "{{user `google_credential`}}",
             "destination": "/var/"
         },
         {

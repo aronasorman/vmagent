@@ -27,20 +27,24 @@ def create_vagrantfile(name, number):
 		f.write(vagrantfile)
 
 
-
 def parse_requirements(args):
 	# Check if the box is already generated
     if not os.path.isfile(box_path):
     	agent_token = 'agent_token={}'.format(args.token)
     	agent_memory = 'memory={}'.format(args.memory)
+        google_credential = 'google_credential={}'.format(args.google_credential)
     	subprocess.call(['packer', 'build', '-var', agent_token, '-var', 
-    		agent_memory, 'build.json'])
+    		agent_memory, '-var', google_credential, 'build.json'])
     	while not os.path.isfile(box_path):
     		sleep(10)
     	print ('Vagrant box successfully generated.')
     output = subprocess.check_output(['vagrant', 'box', 'list'])
-    if args.name not in output:
-    	subprocess.call(['vagrant', 'box', 'add', '--name', args.name, box_path])
+
+    # Remove the box if it's in vagrant, since it could be generated before, which might
+    # be different from current box
+    if args.name in output:
+        subprocess.call(['vagrant', 'box', 'remove', 'args.name'])
+    subprocess.call(['vagrant', 'box', 'add', '--name', args.name, box_path])
     create_vagrantfile(args.name, args.number)
     subprocess.call(['vagrant', 'up'])
     	
@@ -51,11 +55,11 @@ if __name__ == '__main__':
     parser.add_argument('--token', required=True, help='Buildkite agent\'s token.')
     parser.add_argument('--number', required=True, type=int, help='Number of \
     	buildkite agents to set up.')
+    parser.add_argument('--google_credential', required=True, help='Path to the \
+        service account key for your Google API credentials.') 
     parser.add_argument('--name', default='buildkite_agent', help='Name of the \
     	vagrant box.')
     parser.add_argument('--memory', default='1024', type=int,
     	help='Memory of each buildkite agent VM (in megabytes).')
-    parser.add_argument('--google_credential', required=True, help='Path to the \
-        service account key for your Google API credentials.') 
     args = parser.parse_args()
     parse_requirements(args)
