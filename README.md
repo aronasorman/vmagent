@@ -4,7 +4,7 @@ Create a VM image to be a buildkite agent that can be run on multiple platforms,
 
 ## Requirements
 - VirtualBox
-- Python 2.7 (Haven't test on Python 3 yet)
+- Python 2.7 (Haven't tested on Python 3 yet)
 - Packer v1.0.4
 - Vagrant v1.9.3
 - Jinja2
@@ -39,3 +39,7 @@ python vmagent.py --token <buildkite_agent_token> --vm_name <number_of_vms_to_se
 ```
 
 You can also add options such as `memory` and `cpus` to configure the memory and number of cpus used in the virtual machines.
+
+After this command you will have a Vagrant box added to your Vagrant and a Vagrantfile in the current directory. You can change the configurations in Vagrantfile and simply do `vagrant up` to run the virtual machines.
+
+After you do `vagrant up`, the virtual machines will start running, and buildkite agents on these machines will be started as well.

@@ -43,7 +43,6 @@ def create_vagrantfile(name, vm_number, memory, cpus):
 def setup_vm(name, vm_number, memory, cpus):
     subprocess.call(['vagrant', 'box', 'add', '--name', name, box_path])
     create_vagrantfile(name, vm_number, memory, cpus)
-    subprocess.call(['vagrant', 'up'])
 
 
 def parse_requirements(args):
