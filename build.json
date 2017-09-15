@@ -64,7 +64,7 @@
         {
             "type": "file",
             "source": "{{user `google_credential`}}",
-            "destination": "/var/buildkite-artifact-uploader.json"
+            "destination": "/home/vagrant/buildkite-artifact-uploader.json"
         },
         {
             "type": "shell",
