@@ -11,7 +11,7 @@ Create a VM image to be a buildkite agent that can be run on multiple platforms,
 
 ## Get started
 Before running the program, you need to:
-* Generate a service account key for your Google API credentials and put the credentials.json file into `credentials/` directory.
+* Generate a service account key for your Google API credentials and *name it google_credential.json* to put into `credentials/` directory.
 * Have a buildkite-agent token to pass to the program
 
 To see the usage of the program, you can type `python vmagent.py -h` in the terminal:
@@ -40,6 +40,6 @@ python vmagent.py --token <buildkite_agent_token> --vm_name <number_of_vms_to_se
 
 You can also add options such as `memory` and `cpus` to configure the memory and number of cpus used in the virtual machines.
 
-After this command you will have a Vagrant box added to your Vagrant and a Vagrantfile in the current directory. You can change the configurations in Vagrantfile and simply do `vagrant up` to run the virtual machines.
+After this command you will have a Vagrant box in the `output/` folder, which is also already added to your Vagrant, and a Vagrantfile in the current directory. You can change the configurations in Vagrantfile and simply do `vagrant up` to run the virtual machines.
 
 After you do `vagrant up`, the virtual machines will start running, and buildkite agents on these machines will be started as well.

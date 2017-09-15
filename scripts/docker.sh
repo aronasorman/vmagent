@@ -20,3 +20,7 @@ apt-get install -y docker-ce
 
 # Add vagrant to docker group
 usermod -aG docker vagrant
+
+# Pull the specific docker image that is the same as the one on Vader
+docker pull ubuntu:xenial-20170119
+docker tag ubuntu:xenial-20170119 ubuntu:xenial

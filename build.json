@@ -3,7 +3,7 @@
         "agent_token": "",
         "memory": "",
         "cpus": "1",
-        "google_credential": ""
+        "google_credential": "credentials/google_credential.json"
     },
 
     "builders":[{
@@ -80,5 +80,8 @@
     
     ],
 
-    "post-processors": ["vagrant"]
+    "post-processors": [{
+        "type": "vagrant",
+        "output": "output/packer_virtualbox-iso_virtualbox.box"
+    }]
 }

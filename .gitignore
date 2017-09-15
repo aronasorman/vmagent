@@ -3,10 +3,13 @@ output-virtualbox-iso/
 packer_cache/
 
 # Vagrant
-packer_virtualbox-iso_virtualbox.box
 .vagrant
 Vagrantfile
 
 # Google credential
 credentials/*
 !credentials/.gitkeep
+
+# Vagrant box output
+output/*
+!output/.gitkeep
