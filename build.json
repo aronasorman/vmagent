@@ -1,7 +1,9 @@
 {
     "variables": {
         "agent_token": "",
-        "memory": "2048"
+        "memory": "",
+        "cpus": "1",
+        "google_credential": ""
     },
 
     "builders":[{
@@ -39,6 +41,7 @@
         "http_directory": "http",
         "ssh_username": "vagrant",
         "ssh_password": "vagrant",
+        "ssh_port": 22,
         "ssh_wait_timeout": "10000s",
         "vboxmanage": [
             [
@@ -46,22 +49,36 @@
                 "{{.Name}}",
                 "--memory",
                 "{{user `memory`}}"
+            ],
+            [
+              "modifyvm",
+              "{{.Name}}",
+              "--cpus",
+              "{{ user `cpus` }}"
             ]
         ],
         "shutdown_command": "echo 'vagrant' | sudo -S shutdown -P now"
     }],
 
-    "provisioners":[{
-        "type": "shell",
-        "execute_command": "echo 'vagrant' | sudo -S -E bash {{.Path}} {{user `agent_token`}}",
-        "scripts": [
-            "scripts/bootstrap.sh",
-            "scripts/vagrant.sh",
-            "scripts/virtualbox.sh",
-            "scripts/docker.sh",
-            "scripts/buildkite_agent.sh"   
-        ]
-    }],
+    "provisioners":[
+        {
+            "type": "file",
+            "source": "./buildkite-artifact-uploader.json",
+            "destination": "/var/"
+        },
+        {
+            "type": "shell",
+            "execute_command": "echo 'vagrant' | sudo -S -E bash {{.Path}} {{user `agent_token`}}",
+            "scripts": [
+                "scripts/bootstrap.sh",
+                "scripts/vagrant.sh",
+                "scripts/virtualbox.sh",
+                "scripts/docker.sh",
+                "scripts/buildkite_agent.sh"   
+            ]
+        }
+    
+    ],
 
     "post-processors": ["vagrant"]
 }

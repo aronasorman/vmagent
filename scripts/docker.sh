@@ -19,4 +19,4 @@ apt-get update
 apt-get install -y docker-ce
 
 # Add vagrant to docker group
-usermod -aG docker $USER
+usermod -aG docker vagrant
