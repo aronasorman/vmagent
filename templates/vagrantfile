@@ -13,9 +13,11 @@ Vagrant.configure("2") do |config|
     config.vm.define "agent#{id}" do |config|
 
       config.vm.provider "virtualbox" do |vb|
+        
         vb.gui = false
         vb.memory = {{ memory }}
         vb.cpus = {{ cpus }}
+
       end
       
     end
