@@ -26,11 +26,13 @@ def create_vagrantbox(token, memory, google_credential):
     print ('Vagrant box successfully generated.')
 
 
-def create_vagrantfile(name, vm_number):
+def create_vagrantfile(name, vm_number, memory, cpus):
     output_name = 'Vagrantfile'
     context ={
         'name': name,
-        'number': vm_number
+        'number': vm_number,
+        'memory': memory,
+        'cpus': cpus
     }
 
     with open(output_name, 'w') as f:
@@ -38,9 +40,9 @@ def create_vagrantfile(name, vm_number):
         f.write(vagrantfile)
 
 
-def setup_vm(name, vm_number):
+def setup_vm(name, vm_number, memory, cpus):
     subprocess.call(['vagrant', 'box', 'add', '--name', name, box_path])
-    create_vagrantfile(name, vm_number)
+    create_vagrantfile(name, vm_number, memory, cpus)
     subprocess.call(['vagrant', 'up'])
 
 
@@ -55,7 +57,7 @@ def parse_requirements(args):
     output = subprocess.check_output(['vagrant', 'box', 'list'])
     if args.name in output:
         subprocess.call(['vagrant', 'box', 'remove', args.name])
-    setup_vm(args.name, args.vm_number)
+    setup_vm(args.name, args.vm_number, args.memory, args.cpus)
         
 
 if __name__ == '__main__':
@@ -68,7 +70,9 @@ if __name__ == '__main__':
         service account key for your Google API credentials.') 
     parser.add_argument('--name', default='buildkite_agent', help='Name of the \
         vagrant box.')
-    parser.add_argument('--memory', default='1024', type=int,
+    parser.add_argument('--memory', default=1024, type=int,
         help='Memory of each buildkite agent VM (in megabytes).')
+    parser.add_argument('--cpus', default=1, type=int,
+        help='Number of cpus for each buildkite agent VM.')
     args = parser.parse_args()
     parse_requirements(args)
