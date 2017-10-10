@@ -10,8 +10,6 @@ apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys \
 apt-get update && apt-get install -y buildkite-agent
 
 sed -i "s/xxx/$1/g" /etc/buildkite-agent/buildkite-agent.cfg
-# Test for now
-sed -i "s/^#.meta-data=.*/meta-data=\"queue=agenttesting\"/" /etc/buildkite-agent/buildkite-agent.cfg
 
 # Add buildkite-agent to docker group
 usermod -aG docker buildkite-agent
